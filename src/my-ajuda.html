@@ -1,0 +1,75 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
+
+
+<dom-module id="my-ajuda">
+  <template>
+    <style include="app-grid-style shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+        --app-grid-columns: 3;
+        --app-grid-expandible-item-columns: 2;
+      }
+
+      /* Only the first item should expand */
+      .item:first-child {
+        @apply(--app-grid-expandible-item);
+      }
+
+    </style>
+
+    <div class="card">
+      <h1>Ajuda</h1>
+      <p>Bem vindo a secção de ajuda do LabInfo</p>
+      <p>Tem alguma dificuldade? Use o conteúdo desta página para ter mais informação</p>
+    </div>
+
+    <div class="app-grid">
+
+      <div class="item">
+        <div class="card">
+
+          <h2>Perguntas Frequentes</h2>
+        </div>
+      </div>
+
+      <div class="item">
+
+        <div class="card">
+
+          <h2>Links úteis</h2>
+
+          <ul>
+            <li class="item"><a name="jornalismo" href="http://www.google.com?q='jornalismo'">Jornalismo</a></li>
+            <li class="item"><a name="noticia" href="http://www.google.com?q='jornalismo'">Notícia</a></li>
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-ajuda'
+    });
+  </script>
+</dom-module>

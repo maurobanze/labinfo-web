@@ -1,0 +1,33 @@
+[
+  {
+    "articleId": "ABCDEFG",
+    "articleType": 1,
+    "datePublished": "2012-04-23T18:25:43.511Z",
+
+    "title": "Albinos são maltratados na provincia de Tete",
+    "text": "Ai meu deus, isto esta demais. Os albinos estão a experienciar um sofrimento incrível",
+    "authorName": "Mauro Banze",
+    "authorSchoolYear": "4o ano"
+  },
+  {
+    "articleId": "YXZ",
+    "articleType": 2,
+    "datePublished": "2012-04-23T18:25:43.511Z",
+
+    "title": "Crise afecta a todos moçambicanos",
+    "text": "Ai meu deus, isto esta demais. A CRISE está mal",
+    "authorName": "Osvaldo Maria",
+    "authorSchoolYear": "3o ano"
+  },
+  {
+    "articleId": "ABCDEFG",
+    "articleType": 1,
+    "datePublished": "2012-04-23T18:25:43.511Z",
+
+    "title": "Avó é assassinada pelos netos por se desconfiar ser curandeira",
+    "text": "Ai meu deus, isto esta demais. Os albinos estão a experienciar um sofrimento incrível",
+    "authorName": "Alfredo Muchanga",
+    "authorSchoolYear": "1o ano"
+  }
+
+]

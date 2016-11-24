@@ -1,0 +1,153 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
+<dom-module id="my-article-details">
+
+    <!-- Defines the element's style and local DOM -->
+    <template>
+        <style include="app-grid-style">
+            :host {
+                display: block;
+            }
+
+        </style>
+
+        <style is="custom-style">
+
+            .cafe-header {
+                font-size: 22pt;
+            }
+
+            .cafe-light {
+                color: var(--paper-grey-600);
+            }
+
+        </style>
+
+
+        <paper-card style=" margin-top:32px ;margin-right: 128px; margin-left:128px ">
+
+            <iron-image src="[[articleObject.serverMediaUrl]]" style="width:100%; height:300px;" sizing="cover">
+
+            </iron-image>
+            <div class="card-content" style="padding-right: 64px; padding-left: 64px;">
+                <div class="cafe-header">[[articleObject.title]]</div>
+                <div style="padding-top: 8px;">[[articleObject.authorName]] - [[articleObject.authorSchoolYear]]</div>
+                <div class="cafe-light">publicado [[articleObject.dateCreated.time]]</div>
+
+                <p>
+                    {{articleObject.text}}
+
+                </p>
+            </div>
+
+        </paper-card>
+
+        <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px;
+            padding-bottom: 64px">
+
+            <div class="card-content" style="padding-right: 64px; padding-left: 64px; ">
+                <div class="cafe-header">Deixe um comentário</div>
+
+                <paper-input label="Nome" required error-message="introduza o seu nome"></paper-input>
+                <paper-input label="E-mail" required error-message="introduza o seu e-mail"></paper-input>
+                <paper-input label="O seu comentário" char-counter maxlength="200"></paper-input>
+                <paper-button raised="" style="margin-top: 32px; background: #008f72; color: white;" on-tap="handleTap">
+                    Enviar
+                </paper-button>
+
+
+            </div>
+
+        </paper-card>
+
+        <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px; margin-bottom:128px;
+            padding-bottom: 64px">
+
+            <div class="card-content" style="padding-right: 64px; padding-left: 64px; ">
+                <div class="cafe-header">Comentários</div>
+
+            </div>
+
+        </paper-card>
+
+    </template>
+
+    <!-- Creates the element's prototype and registers it -->
+    <script>
+        Polymer({
+            is: 'my-article-details',
+            properties: {
+
+                articleId: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                articleType: {
+                    type: Number,
+                    reflectToAttribute: true
+                },
+                title: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                text: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                mediaSubtitle: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                dateCreated: {
+                    type: Date,
+                    reflectToAttribute: true
+                },
+                dateLastModified: {
+                    type: Date,
+                    reflectToAttribute: true
+                },
+                datePublished: {
+                    type: Date,
+                    reflectToAttribute: true
+                },
+                mediaUrl: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                authorSchoolYear: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                articleObject: {
+                    type: Object,
+                    reflectToAttribute: true
+                },
+                /*Properties related to comments*/
+                commentText: {
+                    type: String
+                }
+
+            },
+            ready: function () {
+
+
+            },
+            handleTap: function () {
+
+                alert('Botao clicado');
+            }
+        });
+    </script>
+
+</dom-module>

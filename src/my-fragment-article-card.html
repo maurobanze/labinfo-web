@@ -1,0 +1,135 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+
+<dom-module id="my-fragment-article-card">
+
+    <!-- Defines the element's style and local DOM -->
+    <template>
+        <style include="app-grid-style">
+            :host {
+                display: block;
+            }
+
+            /*No underline tab links*/
+            a:link {
+                text-decoration: none;
+                color: black;
+            }
+
+            a:visited {
+                text-decoration: none;
+            }
+
+            a:hover {
+                color: #008f72;
+            }
+        </style>
+
+        <style is="custom-style">
+
+            .cafe-header {
+                @apply(--paper-font-headline);
+            }
+
+            .cafe-light {
+                color: var(--paper-grey-600);
+            }
+
+        </style>
+
+        <paper-card style="width: 85%; margin: 24px;">
+
+            <iron-image src="[[mediaUrl]]" style="width:100%; height:300px;" sizing="cover"
+                        placeholder="../images/article_card_placeholder.png">
+
+            </iron-image>
+            <div class="card-content">
+                <div class="cafe-header">
+                    <a name="article-details" href="/article-details" on-tap="handleTap">
+                        [[title]]</a>
+                </div>
+                <div style="padding-top: 8px;">[[authorName]] - [[authorSchoolYear]]</div>
+                <div class="cafe-light">publicado [[datePublished]]</div>
+
+            </div>
+
+        </paper-card>
+
+    </template>
+
+    <!-- Creates the element's prototype and registers it -->
+    <script>
+        Polymer({
+            is: 'my-fragment-article-card',
+
+            properties: {
+
+                articleId: {
+                    type: String,
+                    readOnly: true,
+                    reflectToAttribute: true
+                },
+                articleType: {
+                    type: Number,
+                    reflectToAttribute: true
+                },
+                title: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                datePublished: {
+                    type: Date,
+                    reflectToAttribute: true
+                },
+                mediaUrl: {
+                    type: String,
+                    reflectToAttribute: true
+                },
+                authorName:{
+                    type:String,
+                    reflectToAttribute:true
+                },
+                authorSchoolYear:{
+                    type:String,
+                    reflectToAttribute:true
+                },
+                articleObject:{
+                    type:Object,
+                    reflectToAttribute:true
+
+                },
+                selectedArticle:{
+                    type:Object,
+                    reflectToAttribute:true,
+                    notify:true
+                }
+            },
+            ready: function () {
+
+            },
+
+            handleTap: function () {
+
+                this.isSelected = this.title;
+                this.selectedArticle = this.articleObject;
+            },
+
+            convertDate: function () {
+
+                return new Date(this.datePublished);
+
+            }
+
+
+        });
+    </script>
+
+</dom-module>
