@@ -9,25 +9,119 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/app-layout/app-grid/app-grid-style.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+
+<link rel="import" href="my-fragment-article-card.html">
+
 
 <dom-module id="my-view404">
-  <template>
-    <style>
-      :host {
-        display: block;
+    <template>
+        <style include="app-grid-style shared-styles">
+            :host {
+                display: block;
 
-        padding: 10px 20px;
-      }
-    </style>
+                padding: 10px;
+                --app-grid-columns: 3;
+                --app-grid-expandible-item-columns: 2;
+            }
 
-    <h1>Erro 404</h1>
-    <h2> Oops!! Recurso não encontrado <a href="/">Head back to home.</a>
-    </h2>
-  </template>
+            h1 {
+                padding-left: 20px;
+            }
 
-  <script>
-    Polymer({
-      is: 'my-view404'
-    });
-  </script>
+            /* Only the first item should expand */
+            .item:first-child {
+                @apply(--app-grid-expandible-item);
+            }
+
+            .white {
+                --paper-card-header-color: #fff;
+            }
+        </style>
+
+        <firebase-query
+                id="articlesQuery"
+                app-name="labInfo"
+                path="/articles"
+                query order-by-child="articleType" 
+                equal-to="3"
+                data="{{articleList}}">
+
+        </firebase-query>
+
+        <div class="app-grid">
+
+            <div class="item">
+                <!--<iron-ajax auto url="../data.json" handle-as="json" last-response="{{articles}}">
+
+
+                </iron-ajax>-->
+
+                <iron-list items="{{articleList}}" as="item">
+
+                    <template>
+                        <my-fragment-article-card name="fragment-card" article-id="[[item.articleId]]"
+                                                  article-type="1"
+                                                  title="[[item.title]]"
+                                                  author-name="[[item.authorName]]"
+                                                  author-school-year="[[item.authorSchoolYear]]"
+                                                  date-published="[[item.dateCreated.time]]"
+                                                  media-url="[[item.serverMediaUrl]]"
+                                                  selected-article="{{selectedArticle}}"
+                                                  article-object="[[item]]"
+
+                        >
+
+                        </my-fragment-article-card>
+                    </template>
+                </iron-list>
+            </div>
+
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-view404',
+
+            properties: {
+
+                articleList: {
+                    type: Object,
+                    observer: 'articleListChanged'
+
+                },
+                selectedArticle: {
+                    type: Object,
+                    notify: true,
+                    observer: 'selectedArticleChanged'
+                }
+            },
+
+            ready: function () {
+
+                this.selectedArticleId = 'Mauro';
+
+            },
+
+            articleListChanged: function (newData, oldData) {
+
+                // do something when the query returns values
+
+            },
+            selectedArticleChanged: function () {
+
+
+            }
+
+        });
+    </script>
 </dom-module>
