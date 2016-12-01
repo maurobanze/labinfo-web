@@ -20,6 +20,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 <link rel="import" href="my-fragment-article-card.html">
+<link rel="import" href="my-fragment-article-card-audio.html">
+<link rel="import" href="my-fragment-article-card-video.html">
 
 
 <dom-module id="my-view1">
@@ -51,8 +53,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 id="articlesQuery"
                 app-name="labInfo"
                 path="/articles"
-                data="{{articleList}}">
+                query order-by-child="articleType" 
+                equal-to="1"
+                data="{{articleList1}}">
+        </firebase-query>
 
+         <firebase-query
+                id="articlesQuery"
+                app-name="labInfo"
+                path="/articles"
+                query order-by-child="articleType" 
+                equal-to="2"
+                data="{{articleList2}}">
+        </firebase-query>
+
+         <firebase-query
+                id="articlesQuery"
+                app-name="labInfo"
+                path="/articles"
+                query order-by-child="articleType" 
+                equal-to="3"
+                data="{{articleList3}}">
         </firebase-query>
 
         <h1>Notícias</h1>
@@ -65,7 +86,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 </iron-ajax>-->
 
-                <iron-list items="{{articleList}}" as="item">
+                <iron-list items="{{articleList1}}" as="item">
 
                     <template>
                         <my-fragment-article-card name="fragment-card" article-id="[[item.articleId]]"
@@ -81,6 +102,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         >
 
                         </my-fragment-article-card>
+                    </template>
+                </iron-list>
+
+                <iron-list items="{{articleList2}}" as="item">
+
+                    <template>
+                        <my-fragment-article-card-audio name="fragment-card" article-id="[[item.articleId]]"
+                                                  article-type="1"
+                                                  title="[[item.title]]"
+                                                  author-name="[[item.authorName]]"
+                                                  author-school-year="[[item.authorSchoolYear]]"
+                                                  date-published="[[item.dateCreated.time]]"
+                                                  media-url="[[item.serverMediaUrl]]"
+                                                  selected-article="{{selectedArticle}}"
+                                                  article-object="[[item]]"
+
+                        >
+
+                        </my-fragment-article-card-audio>
+                    </template>
+                </iron-list>
+
+                <iron-list items="{{articleList3}}" as="item">
+
+                    <template>
+                        <my-fragment-article-card-video name="fragment-card" article-id="[[item.articleId]]"
+                                                  article-type="1"
+                                                  title="[[item.title]]"
+                                                  author-name="[[item.authorName]]"
+                                                  author-school-year="[[item.authorSchoolYear]]"
+                                                  date-published="[[item.dateCreated.time]]"
+                                                  media-url="[[item.serverMediaUrl]]"
+                                                  selected-article="{{selectedArticle}}"
+                                                  article-object="[[item]]"
+
+                        >
+
+                        </my-fragment-article-card-video>
                     </template>
                 </iron-list>
             </div>

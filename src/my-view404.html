@@ -19,7 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 
-<link rel="import" href="my-fragment-article-card.html">
+<link rel="import" href="my-fragment-article-card-video.html">
 
 
 <dom-module id="my-view404">
@@ -68,7 +68,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <iron-list items="{{articleList}}" as="item">
 
                     <template>
-                        <my-fragment-article-card name="fragment-card" article-id="[[item.articleId]]"
+                        <my-fragment-article-card-video name="fragment-card" article-id="[[item.articleId]]"
                                                   article-type="1"
                                                   title="[[item.title]]"
                                                   author-name="[[item.authorName]]"
@@ -80,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                         >
 
-                        </my-fragment-article-card>
+                        </my-fragment-article-card-video>
                     </template>
                 </iron-list>
             </div>

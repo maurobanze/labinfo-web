@@ -9,7 +9,7 @@
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 
 
-<dom-module id="my-fragment-article-card">
+<dom-module id="my-fragment-article-card-audio">
 
     <!-- Defines the element's style and local DOM -->
     <template>
@@ -47,8 +47,7 @@
 
         <paper-card style="width: 85%; margin: 24px;">
 
-            <iron-image src="[[mediaUrl]]" style="width:100%; height:300px;" sizing="cover"
-                        placeholder="/images/Au.png">
+            <iron-image src="/images/Audio.png" style="width:100%; height:300px;" sizing="cover">
 
             </iron-image>
             <div class="card-content">
@@ -68,7 +67,7 @@
     <!-- Creates the element's prototype and registers it -->
     <script>
         Polymer({
-            is: 'my-fragment-article-card',
+            is: 'my-fragment-article-card-audio',
 
             properties: {
 

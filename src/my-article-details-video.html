@@ -9,10 +9,9 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<link rel="import" href="bower_components/paper-audio-player/paper-audio-player.html">
 
-<dom-module id="my-article-details">
+
+<dom-module id="article-details-video">
 
     <!-- Defines the element's style and local DOM -->
     <template>
@@ -38,7 +37,7 @@
 
         <paper-card style=" margin-top:32px ;margin-right: 128px; margin-left:128px ">
 
-            <iron-image src="[[articleObject.serverMediaUrl]]" style="width:100%; height:300px;" sizing="cover">
+            <iron-image src="/images/Video.png" style="width:100%; height:300px;" sizing="cover">
 
             </iron-image>
             <div class="card-content" style="padding-right: 64px; padding-left: 64px;">
@@ -48,11 +47,8 @@
 
                 <p>
                     {{articleObject.text}}
-                </p>
-                <p> <video width="820" height="440" controls>
-                    <source src="[[articleObject.serverMediaUrl]]" type="video/mp4">
-                    </video>
 
+                </p>
             </div>
 
         </paper-card>
@@ -90,7 +86,7 @@
     <!-- Creates the element's prototype and registers it -->
     <script>
         Polymer({
-            is: 'my-article-details',
+            is: 'article-details-video',
             properties: {
 
                 articleId: {
