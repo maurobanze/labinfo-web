@@ -55,17 +55,17 @@
 
             </iron-image>
             <template is="dom-if" if="{{isImage(articleType)}}">
-                <iron-image data-type="img {{articleType}}" src="[[mediaUrl]]" style="width:100%; height:300px;" sizing="cover">
+                <iron-image  src="[[mediaUrl]]" style="width:100%; height:300px;" sizing="cover">
                 </iron-image>
             </template>
 
             <template is="dom-if" if="{{isAudio(articleType)}}">
-                <iron-image data-type="audio {{articleType}}" src="/images/Audio.png" style="width:100%; height:300px;" sizing="cover">
+                <iron-image  src="/images/Audio.png" style="width:100%; height:300px;" sizing="cover">
                 </iron-image>
             </template>
 
             <template is="dom-if" if="{{isVideo(articleType)}}">
-              <iron-image data-type="video {{articleType}}" src="/images/Video.png" style="width:100%; height:300px;" sizing="cover">
+              <iron-image  src="/images/Video.png" style="width:100%; height:300px;" sizing="cover">
 
               </iron-image>
             </template>
