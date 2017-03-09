@@ -52,20 +52,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <firebase-query
                 id="articlesQuery"
                 app-name="labInfo"
-                path="/test"
-                query order-by-child="articleType"
-                equal-to="1"
-                log
+                path="/articles"
+
                 data="{{articleList1}}">
         </firebase-query>
 
-         <firebase-query
+         <!-- <firebase-query
                 id="articlesQuery"
                 app-name="labInfo"
                 path="/articles"
                 query order-by-child="articleType"
                 equal-to="2"
-                log
+
                 data="{{articleList2}}">
         </firebase-query>
 
@@ -75,9 +73,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 path="/articles"
                 query order-by-child="articleType"
                 equal-to="3"
-                log
+                l
                 data="{{articleList3}}">
-        </firebase-query>
+        </firebase-query> -->
 
         <h1>Notícias</h1>
 
@@ -92,8 +90,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <iron-list items="{{articleList1}}" as="item">
 
                     <template>
-                        <my-fragment-article-card name="fragment-card" article-id="[[item.articleId]]"
-                                                  article-type="1"
+                        <my-fragment-article-card name="fragment-card"
+                                                  article-id="[[item.articleId]]"
+                                                  article-type="[[item.articleType]]"
                                                   title="[[item.title]]"
                                                   author-name="[[item.authorName]]"
                                                   author-school-year="[[item.authorSchoolYear]]"
@@ -107,7 +106,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </my-fragment-article-card>
                     </template>
                 </iron-list>
-
+<!--
                 <iron-list items="{{articleList2}}" as="item">
 
                     <template>
@@ -144,7 +143,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                         </my-fragment-article-card-video>
                     </template>
-                </iron-list>
+                </iron-list> -->
             </div>
 
             <div class="item">

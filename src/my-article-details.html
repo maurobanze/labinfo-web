@@ -1,16 +1,18 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
-<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/paper-audio-player/paper-audio-player.html">
+<link rel="import" href="elements/iron-grid/iron-grid.html">
 
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="bower_components/paper-audio-player/paper-audio-player.html">
-
+<script src="../bower_components/moment/moment.js"></script>
   <!-- <link rel="import" href="../bower_components/disqus-comments/disqus-comments.html">
   <link rel="import" href="../bower_components/disqus-thread/disqus-thread.html"> -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
@@ -49,62 +51,75 @@
 
         </style>
 
+        <app-location route="{{route}}"></app-location>
+        <app-route
+        id="router"
+          route="{{route}}"
+          pattern="/article-details/:articleId"
+          data="{{routeData}}">
+        </app-route>
 
-        <paper-card style=" margin-top:32px ;margin-right: 128px; margin-left:128px ">
+        <firebase-document
+          id="doc"
+          app-name="labInfo"
+          path="/articles/{{routeData.articleId}}"
+          data="{{article}}"
+          log>
+        </firebase-document>
+<iron-grid-container>
+<iron-grid log>
+        <paper-card style="margin-top:20px; padding-top:20px" class="s12">
+          <iron-grid>
+          <div class="s12">
 
-            <iron-image src="[[articleObject.serverMediaUrl]]" style="width:100%; height:300px;" sizing="cover">
 
-            </iron-image>
-            <div class="card-content" style="padding-right: 64px; padding-left: 64px;">
-                <div class="cafe-header">[[articleObject.title]]</div>
-                <div style="padding-top: 8px;">[[articleObject.authorName]] - [[articleObject.authorSchoolYear]]</div>
-                <div class="cafe-light">publicado [[articleObject.dateCreated.time]]</div>
+                    <template is="dom-if" if="{{isImage(article.articleType)}}">
+                        <iron-image src="[[article.serverMediaUrl]]" style="width:100%; height:300px;" sizing="cover">
+                        </iron-image>
+                    </template>
+
+                    <template is="dom-if" if="{{isAudio(article.articleType)}}">
+                      <paper-audio-player style="width:100%" src="[[article.serverMediaUrl]]" title="[[article.title]]" color="#00aa8d"></paper-audio-player>
+                    </template>
+
+                    <template is="dom-if" if="{{isVideo(article.articleType)}}">
+
+                        <video width="100%" height="440" controls>
+                            <source src="[[article.serverMediaUrl]]" type="video/mp4">
+                        </video>
+                    </template>
+
+            </div>
+
+          <div class="s12">
+
+
+            <div class="card-content " style="">
+                <div class="cafe-header">[[article.title]]</div>
+                <div style="padding-top: 8px;">[[article.authorName]] - [[article.authorSchoolYear]]</div>
+                <div class="cafe-light">publicado [[getDate(article.dateCreated.time)]]</div>
 
                 <p>
-                    {{articleObject.text}}
+                    {{article.text}}
                 </p>
-                <p> <video width="820" height="440" controls>
-                    <source src="[[articleObject.serverMediaUrl]]" type="video/mp4">
-                    </video>
 
             </div>
-
+            </div>
+          </iron-grid>
         </paper-card>
-        <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px;
-            padding:64px,20px;20px;20px">
-
-              <div id="disqus_thread"></div>
-          </paper-card>
+        </iron-grid>
 
 
+<iron-grid>
+            <paper-card  style=" width: 100%; margin-top:32px ;
+            padding:20px">
 
-        <!-- <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px;
-            padding-bottom: 64px">
-
-            <div class="card-content" style="padding-right: 64px; padding-left: 64px; ">
-                <div class="cafe-header">Deixe um comentário</div>
-
-                <paper-input label="Nome" required error-message="introduza o seu nome"></paper-input>
-                <paper-input label="E-mail" required error-message="introduza o seu e-mail"></paper-input>
-                <paper-input label="O seu comentário" char-counter maxlength="200"></paper-input>
-                <paper-button raised="" style="margin-top: 32px; background: #008f72; color: white;" on-tap="handleTap">
-                    Enviar
-                </paper-button>
+                  <div id="disqus_thread"></div>
+              </paper-card>
+</iron-grid>
 
 
-            </div>
-
-        </paper-card>
-
-        <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px; margin-bottom:128px;
-            padding-bottom: 64px">
-
-            <div class="card-content" style="padding-right: 64px; padding-left: 64px; ">
-                <div class="cafe-header">Comentários</div>
-
-            </div>
-
-        </paper-card> -->
+</iron-grid-container>
 
     </template>
 
@@ -113,7 +128,16 @@
         Polymer({
             is: 'my-article-details',
             properties: {
-
+              article: {
+                  type: Object,
+                  notify:true,
+                  reflectToAttribute: true
+              },
+              route:{
+                type:String,
+                notify:true,
+                observer:'routeChanged'
+              },
                 articleId: {
                     type: String,
                     reflectToAttribute: true
@@ -164,18 +188,37 @@
                 }
 
             },
-            ready: function () {
-              console.log(document);
+            isVideo:function(type){
+              console.log();
+              return type===3;
 
-                  /*    var disqus_config = function () {
-                          this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-                          this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            },
+            isAudio: function(type){
+                return type===2;
+            },
+            isImage:function(type){
+                return type===1;
+            },
+            getDate: function(date){
+                var mom=moment(date).format('M/D/YYYY');
+                return mom;
+              },
+            ready: function () {
+              console.log(this.$.doc.path);
+
+            },
+            routeChanged: function () {
+              console.log(this.$.doc.path);
+
+                      var disqus_config = function () {
+                          this.page.url = this.articleObject;  // Replace PAGE_URL with your page's canonical URL variable
+                          this.page.identifier = this.route; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
                       };
-                      */
+
                       (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
                           var d = document, s = d.createElement('script');
-                          console.log(document.getElementById('disqus_thread'));
-                          s.src = '//labinfo.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+                        //  console.log(document.getElementById('disqus_thread'));
+                          s.src = '//labinfo.disqus.com/embed.js';
 
                           s.setAttribute('data-timestamp', +new Date());
                           (d.head || d.body).appendChild(s);

@@ -52,7 +52,7 @@
             </iron-image>
             <div class="card-content">
                 <div class="cafe-header">
-                    <a name="article-details" href="/article-details" on-tap="handleTap">
+                    <a name="article-details" href="/article-details/[[articleId]]" on-tap="handleTap">
                         [[title]]</a>
                 </div>
                 <div style="padding-top: 8px;">[[authorName]] - [[authorSchoolYear]]</div>
@@ -73,7 +73,6 @@
 
                 articleId: {
                     type: String,
-                    readOnly: true,
                     reflectToAttribute: true
                 },
                 articleType: {

@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "destination": "/index.html"
+    "destination": "/index.html",
+    "public": "build/unbundled"
   },
   "database": {
     "rules": "database.rules.json"

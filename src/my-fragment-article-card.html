@@ -4,10 +4,12 @@
 <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 
+
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <script src="../bower_components/moment/moment.js"></script>
+
 
 <dom-module id="my-fragment-article-card">
 
@@ -45,15 +47,32 @@
 
         </style>
 
+
+
+
         <paper-card style="width: 85%; margin: 24px;">
 
-            <iron-image src="[[mediaUrl]]" style="width:100%; height:300px;" sizing="cover"
-                        placeholder="/images/Au.png">
 
             </iron-image>
+            <template is="dom-if" if="{{isImage(articleType)}}">
+                <iron-image data-type="img {{articleType}}" src="[[mediaUrl]]" style="width:100%; height:300px;" sizing="cover">
+                </iron-image>
+            </template>
+
+            <template is="dom-if" if="{{isAudio(articleType)}}">
+                <iron-image data-type="audio {{articleType}}" src="/images/Audio.png" style="width:100%; height:300px;" sizing="cover">
+                </iron-image>
+            </template>
+
+            <template is="dom-if" if="{{isVideo(articleType)}}">
+              <iron-image data-type="video {{articleType}}" src="/images/Video.png" style="width:100%; height:300px;" sizing="cover">
+
+              </iron-image>
+            </template>
+
             <div class="card-content">
                 <div class="cafe-header">
-                    <a name="article-details" href="/article-details" on-tap="handleTap">
+                    <a name="article-details" href="/article-details/[[articleId]]" on-tap="handleTap">
                         [[title]]</a>
                 </div>
                 <div style="padding-top: 8px;">[[authorName]] - [[authorSchoolYear]]</div>
@@ -74,7 +93,6 @@
 
                 articleId: {
                     type: String,
-                    readOnly: true,
                     reflectToAttribute: true
                 },
                 articleType: {
@@ -113,13 +131,24 @@
                 }
             },
             ready: function () {
-
+              console.log(this.title);
             },
 
             handleTap: function () {
 
                 this.isSelected = this.title;
                 this.selectedArticle = this.articleObject;
+            },
+            isVideo:function(type){
+              console.log();
+              return type===3;
+
+            },
+            isAudio: function(type){
+                return type===2;
+            },
+            isImage:function(type){
+                return type===1;
             },
             getDate: function(date){
                 var mom=moment(date).format('M/D/YYYY');
