@@ -9,7 +9,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-
+<script src="../bower_components/moment/moment.js"></script>
 
 <dom-module id="article-details-video">
 
@@ -43,7 +43,7 @@
             <div class="card-content" style="padding-right: 64px; padding-left: 64px;">
                 <div class="cafe-header">[[articleObject.title]]</div>
                 <div style="padding-top: 8px;">[[articleObject.authorName]] - [[articleObject.authorSchoolYear]]</div>
-                <div class="cafe-light">publicado [[articleObject.dateCreated.time]]</div>
+                <div class="cafe-light">publicadoo [[getDate(articleObject.dateCreated.time)]]</div>
 
                 <p>
                     {{articleObject.text}}
@@ -136,7 +136,11 @@
                 /*Properties related to comments*/
                 commentText: {
                     type: String
-                }
+                },
+                getDate: function(date){
+                  var mom=moment(date).format('M/D/YYYY');
+                  return mom;
+                },
 
             },
             ready: function () {

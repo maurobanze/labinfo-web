@@ -9,8 +9,11 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <link rel="import" href="bower_components/paper-audio-player/paper-audio-player.html">
+
+  <!-- <link rel="import" href="../bower_components/disqus-comments/disqus-comments.html">
+  <link rel="import" href="../bower_components/disqus-thread/disqus-thread.html"> -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
 
 <dom-module id="my-article-details">
 
@@ -20,6 +23,17 @@
             :host {
                 display: block;
             }
+
+            disqus-comments {
+              margin: 20px 0;
+            }
+            #disqus_thread p {
+              color: #333;
+            }
+            #disqus_thread a {
+              color: hotpink;
+            }
+
 
         </style>
 
@@ -56,8 +70,15 @@
             </div>
 
         </paper-card>
-
         <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px;
+            padding:64px,20px;20px;20px">
+
+              <div id="disqus_thread"></div>
+          </paper-card>
+
+
+
+        <!-- <paper-card style=" width: 80%; margin-top:32px ;margin-right: 128px; margin-left:128px;
             padding-bottom: 64px">
 
             <div class="card-content" style="padding-right: 64px; padding-left: 64px; ">
@@ -83,7 +104,7 @@
 
             </div>
 
-        </paper-card>
+        </paper-card> -->
 
     </template>
 
@@ -144,8 +165,22 @@
 
             },
             ready: function () {
+              console.log(document);
 
+                  /*    var disqus_config = function () {
+                          this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                          this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                      };
+                      */
+                      (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+                          var d = document, s = d.createElement('script');
+                          console.log(document.getElementById('disqus_thread'));
+                          s.src = '//labinfo.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
 
+                          s.setAttribute('data-timestamp', +new Date());
+                          (d.head || d.body).appendChild(s);
+                          //Polymer.dom(this.root).appendChild(toLocal)
+                      })();
             },
             handleTap: function () {
 

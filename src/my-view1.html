@@ -52,9 +52,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <firebase-query
                 id="articlesQuery"
                 app-name="labInfo"
-                path="/articles"
-                query order-by-child="articleType" 
+                path="/test"
+                query order-by-child="articleType"
                 equal-to="1"
+                log
                 data="{{articleList1}}">
         </firebase-query>
 
@@ -62,8 +63,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 id="articlesQuery"
                 app-name="labInfo"
                 path="/articles"
-                query order-by-child="articleType" 
+                query order-by-child="articleType"
                 equal-to="2"
+                log
                 data="{{articleList2}}">
         </firebase-query>
 
@@ -71,8 +73,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 id="articlesQuery"
                 app-name="labInfo"
                 path="/articles"
-                query order-by-child="articleType" 
+                query order-by-child="articleType"
                 equal-to="3"
+                log
                 data="{{articleList3}}">
         </firebase-query>
 
