@@ -19,6 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="elements/iron-grid/iron-grid.html">
 
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
@@ -33,192 +34,203 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="my-icons.html">
 
 <dom-module id="my-app-main">
-    <template>
-        <style>
-            :host {
-                --app-primary-color: #4285f4;
-                --app-secondary-color: black;
+  <template>
+  <style>
+  :host {
+    --app-primary-color: #4285f4;
+    --app-secondary-color: black;
 
-                display: block;
-            }
+    display: block;
+  }
 
-            app-header {
-                color: #fff;
-                background-color: var(--app-primary-color);
-            }
+  app-header {
+    color: #fff;
+    background-color: var(--app-primary-color);
+  }
 
-            app-header paper-icon-button {
-                --paper-icon-button-ink-color: white;
-            }
+  app-header paper-icon-button {
+    --paper-icon-button-ink-color: white;
+  }
 
-            .drawer-list {
-                margin: 0 20px;
-            }
+  .drawer-list {
+    margin: 0 20px;
+  }
 
-            .drawer-list a {
-                display: block;
+  .drawer-list a {
+    display: block;
 
-                padding: 0 16px;
+    padding: 0 16px;
 
-                text-decoration: none;
+    text-decoration: none;
 
-                color: var(--app-secondary-color);
+    color: var(--app-secondary-color);
 
-                line-height: 40px;
-            }
+    line-height: 40px;
+  }
 
-            .drawer-list a.iron-selected {
-                color: black;
+  .drawer-list a.iron-selected {
+    color: black;
 
-                font-weight: bold;
-            }
+    font-weight: bold;
+  }
 
-            .link {
-                @apply(--layout-horizontal);
-                @apply(--layout-center-center);
-                padding-right: 8px;
-                padding-left: 8px;
-                color: #fff;
+  .link {
+    @apply(--layout-horizontal);
+    @apply(--layout-center-center);
+    padding-right: 8px;
+    padding-left: 8px;
+    color: #fff;
 
-            }
+  }
 
-            /*No underline tab links*/
-            a:link {
-                text-decoration: none;
-            }
+  /*No underline tab links*/
+  a:link {
+    text-decoration: none;
+  }
 
-            a:visited {
-                text-decoration: none;
-            }
+  a:visited {
+    text-decoration: none;
+  }
 
-            a:hover {
-                text-decoration: none;
-            }
+  a:hover {
+    text-decoration: none;
+  }
 
-            .app-title {
-                color: #fff;
-            }
-        </style>
+  .app-title {
+    color: #fff;
+  }
 
-        <firebase-app
-                name="labInfo"
-                api-key="AIzaSyDazt0QoMzuIA1aG38YjYtc3RqM2QaGgYY"
-                auth-domain="labinfo-85759.firebaseapp.com"
-                database-url="https://labinfo-85759.firebaseio.com"
-                storage-bucket="labinfo-85759.appspot.com">
-        </firebase-app>
+  .paper-tabs-0 #tabsContainer.paper-tabs {
+    -webkit-flex: 0;
+    flex: 0;
+    -webkit-flex-basis: auto;
+    flex-basis: auto;
+    margin: 0 auto;
+    width: auto;
+  }
 
-        <app-location route="{{route}}"></app-location>
-        <app-route
-                route="{{route}}"
-                pattern="/:page"
-                data="{{routeData}}"
-                tail="{{subroute}}"></app-route>
+  #tabsContent.scrollable.paper-tabs {
+    position: relative;
+  }
+  </style>
 
+  <firebase-app
+  name="labInfo"
+  api-key="AIzaSyDazt0QoMzuIA1aG38YjYtc3RqM2QaGgYY"
+  auth-domain="labinfo-85759.firebaseapp.com"
+  database-url="https://labinfo-85759.firebaseio.com"
+  storage-bucket="labinfo-85759.appspot.com">
+</firebase-app>
 
-        <!-- Main content -->
-        <app-header-layout>
-
-            <app-header condenses reveals effects="waterfall">
-                <app-toolbar class="layout horizontal justified" style="background: #00AA8D">
-                    <div main-title>
-                        <a name="view1" class="app-title" href="/view1">Lab Info</a>
-
-                    </div>
-
-                    <!--<iron-selector selected="[[page]]" attr-for-selected="name" class="toolbar-list"
-                                   role="navigation">
-
-                        <a name="view1" href="/view1">Notícias</a>
-                        <a name="ajuda" href="/ajuda">Texto</a>
-                        <a name="view3" href="/view3">Áudio</a>
-                        <a name="view3" href="/view3">Vídeo</a>
-
-                    </iron-selector>-->
-
-                    <paper-tabs class="bottom-item" selected="[[page]]" attr-for-selected="name">
-
-                        <paper-tab name="view1" link>
-                            <a name="view1" class="link" href="/view1" tabindex="0">NOTÍCIAS</a>
-                        </paper-tab>
-
-                        <paper-tab name="ajuda" link>
-                            <a name="ajuda" class="link" href="/ajuda" tabindex="1">TEXTO</a>
-                        </paper-tab>
-
-                        <paper-tab name="view3" link>
-                            <a name="view3" class="link" href="/view3" tabindex="2">ÁUDIO</a>
-                        </paper-tab>
-
-                        <paper-tab name="video" link>
-                            <a name="video" class="link" href="/video" tabindex="3">VÍDEO</a>
-                        </paper-tab>
-
-                    </paper-tabs>
-
-                </app-toolbar>
-            </app-header>
-
-            <iron-pages
-                    selected="[[page]]"
-                    attr-for-selected="name"
-                    fallback-selection="view404"
-                    role="main">
-
-                <my-view1 name="view1" selected-article="{{selectedArticle}}"></my-view1>
-                <my-ajuda name="ajuda"></my-ajuda>
-                <my-view3 name="view3"></my-view3>
-                <my-article-details name="article-details" article-object="{{selectedArticle}}"></my-article-details>
-                <my-view404 name="view404"></my-view404>
-
-            </iron-pages>
-
-        </app-header-layout>
-
-    </template>
-
-    <script>
-        Polymer({
-            is: 'my-app-main',
-
-            properties: {
-                page: {
-                    type: String,
-                    reflectToAttribute: true,
-                    observer: '_pageChanged'
-                },
-                selectedArticleId: {
-                    type: String,
-                    notify: true
-                },
-                selectedArticle: {
-                    type: String,
-                    notify: true
-                }
+<app-location route="{{route}}"></app-location>
+<app-route
+route="{{route}}"
+pattern="/:page"
+data="{{routeData}}"
+tail="{{subroute}}"></app-route>
 
 
-            },
+<!-- Main content -->
+<app-header-layout>
 
-            observers: [
-                '_routePageChanged(routeData.page)'
-            ],
+  <app-header condenses reveals effects="waterfall">
+    <app-toolbar class="layout horizontal justified" style="background: #00AA8D">
+      <iron-grid>
+        <div class="m4 s1">
 
-            _routePageChanged: function (page) {
-                this.page = page || 'view1';
-            },
+          <div main-title>
+            <a name="view1" class="app-title" href="/view1">Lab Info</a>
 
-            _pageChanged: function (page) {
-                // Load page import on demand. Show 404 page if fails
-                var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-                this.importHref(resolvedPageUrl, null, this._showPage404, true);
-            },
+          </div>
 
-            _showPage404: function () {
-                this.page = 'view404';
-            }
+        </div>
+        <div class="m8 s10">
+          <paper-tabs class="bottom-item center" selected="[[page]]" attr-for-selected="name">
 
-        });
+            <paper-tab name="view1" link>
+              <a name="view1" class="link" href="/view1" tabindex="0">TODAS</a>
+            </paper-tab>
 
-    </script>
+            <paper-tab name="ajuda" link>
+              <a name="ajuda" class="link" href="/ajuda" tabindex="1">TEXTO</a>
+            </paper-tab>
+
+            <paper-tab name="view3" link>
+              <a name="view3" class="link" href="/view3" tabindex="2">ÁUDIO</a>
+            </paper-tab>
+
+            <paper-tab name="video" link>
+              <a name="video" class="link" href="/video" tabindex="3">VÍDEO</a>
+            </paper-tab>
+
+          </paper-tabs>
+
+        </div>
+
+      </iron-grid>
+    </app-toolbar>
+  </app-header>
+
+  <iron-pages
+  selected="[[page]]"
+  attr-for-selected="name"
+  fallback-selection="view404"
+  role="main">
+
+  <my-view1 name="view1" selected-article="{{selectedArticle}}"></my-view1>
+  <my-ajuda name="ajuda"></my-ajuda>
+  <my-view3 name="view3"></my-view3>
+  <my-article-details name="article-details" article-object="{{selectedArticle}}"></my-article-details>
+  <my-view404 name="view404"></my-view404>
+
+</iron-pages>
+
+</app-header-layout>
+
+</template>
+
+<script>
+Polymer({
+  is: 'my-app-main',
+
+  properties: {
+    page: {
+      type: String,
+      reflectToAttribute: true,
+      observer: '_pageChanged'
+    },
+    selectedArticleId: {
+      type: String,
+      notify: true
+    },
+    selectedArticle: {
+      type: String,
+      notify: true
+    }
+
+
+  },
+
+  observers: [
+    '_routePageChanged(routeData.page)'
+  ],
+
+  _routePageChanged: function (page) {
+    this.page = page || 'view1';
+  },
+
+  _pageChanged: function (page) {
+    // Load page import on demand. Show 404 page if fails
+    var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+    this.importHref(resolvedPageUrl, null, this._showPage404, true);
+  },
+
+  _showPage404: function () {
+    this.page = 'view404';
+  }
+
+});
+
+</script>
 
 </dom-module>
