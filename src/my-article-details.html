@@ -1,3 +1,4 @@
+<title> olaa</title>
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
@@ -7,229 +8,266 @@
 <link rel="import" href="../bower_components/paper-audio-player/paper-audio-player.html">
 <link rel="import" href="elements/iron-grid/iron-grid.html">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
+
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/page-title/page-title.html">
 <script src="../bower_components/moment/moment.js"></script>
-  <!-- <link rel="import" href="../bower_components/disqus-comments/disqus-comments.html">
-  <link rel="import" href="../bower_components/disqus-thread/disqus-thread.html"> -->
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
+<!-- <link rel="import" href="../bower_components/disqus-comments/disqus-comments.html">
+<link rel="import" href="../bower_components/disqus-thread/disqus-thread.html"> -->
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700">
 
 <dom-module id="my-article-details">
 
-    <!-- Defines the element's style and local DOM -->
-    <template>
-        <style include="app-grid-style">
-            :host {
-                display: block;
-            }
+  <!-- Defines the element's style and local DOM -->
+  <template>
+  <style include="shared-styles">
+  :host {
+    display: block;
+  }
 
-            disqus-comments {
-              margin: 20px 0;
-            }
-            #disqus_thread p {
-              color: #333;
-            }
-            #disqus_thread a {
-              color: hotpink;
-            }
+  disqus-comments {
+    margin: 20px 0;
+  }
+  #disqus_thread p {
+    color: #333;
+  }
+  #disqus_thread a {
+    color: hotpink;
+  }
+
+  paper-icon-button.fa {
+padding: .5em;
+height: 2em;
+width: 2em;
+}
+  paper-icon-button.fa {
+    padding: 10px;
+    line-height: 1em;
+    overflow: hidden;
+  }
 
 
-        </style>
+  </style>
 
-        <style is="custom-style">
+  <style is="custom-style">
 
-            .cafe-header {
-                font-size: 22pt;
-            }
+  .cafe-header {
+    font-size: 22pt;
+  }
 
-            .cafe-light {
-                color: var(--paper-grey-600);
-            }
+  .cafe-light {
+    color: var(--paper-grey-600);
+  }
 
-        </style>
+  </style>
 
-        <app-location route="{{route}}"></app-location>
-        <app-route
-        id="router"
-          route="{{route}}"
-          pattern="/article-details/:articleId"
-          data="{{routeData}}">
-        </app-route>
+  <app-location route="{{route}}"></app-location>
+  <app-route
+  id="router"
+  route="{{route}}"
+  pattern="/article-details/:articleId"
+  data="{{routeData}}">
+</app-route>
 
-        <firebase-document
-          id="doc"
-          app-name="labInfo"
-          path="/articles/{{routeData.articleId}}"
-          data="{{article}}"
-          log>
-        </firebase-document>
+<firebase-document
+id="doc"
+app-name="labInfo"
+path="/articles/{{routeData.articleId}}"
+data="{{article}}"
+>
+</firebase-document>
+
+<page-title
+  base-title="{{baseTitle}}"
+  divider="{{divider}}"
+  title="[[article.title]]"
+  direction="{{direction}}"
+  computed-title="{{currentTitle}}">
+</page-title>
+
 <iron-grid-container>
-<iron-grid log>
-        <paper-card style="margin-top:20px; padding-top:20px" class="s12">
-          <iron-grid>
-          <div class="s12">
+  <iron-grid log>
+    <paper-card style="margin-top:20px; padding-top:20px" class="s12">
+      <iron-grid>
+        <div class="s12">
 
 
-                    <template is="dom-if" if="{{isImage(article.articleType)}}">
-                        <iron-image src="[[article.serverMediaUrl]]" style="width:100%; height:300px;" sizing="cover">
-                        </iron-image>
-                    </template>
+          <template is="dom-if" if="{{isImage(article.articleType)}}">
+            <iron-image src="[[article.serverMediaUrl]]" style="width:100%; height:300px;" sizing="cover">
+            </iron-image>
+          </template>
 
-                    <template is="dom-if" if="{{isAudio(article.articleType)}}">
-                      <paper-audio-player style="width:100%" src="[[article.serverMediaUrl]]" title="[[article.title]]" color="#00aa8d"></paper-audio-player>
-                    </template>
+          <template is="dom-if" if="{{isAudio(article.articleType)}}">
+            <paper-audio-player style="width:100%" src="[[article.serverMediaUrl]]" title="[[article.title]]" color="#00aa8d"></paper-audio-player>
+          </template>
 
-                    <template is="dom-if" if="{{isVideo(article.articleType)}}">
+          <template is="dom-if" if="{{isVideo(article.articleType)}}">
 
-                        <video width="100%" height="440" controls>
-                            <source src="[[article.serverMediaUrl]]" type="video/mp4">
-                        </video>
-                    </template>
+            <video width="100%" height="440" controls>
+              <source src="[[article.serverMediaUrl]]" type="video/mp4">
+              </video>
+            </template>
 
-            </div>
+          </div>
 
           <div class="s12">
 
 
             <div class="card-content " style="">
-                <div class="cafe-header">[[article.title]]</div>
-                <div style="padding-top: 8px;">[[article.authorName]] - [[article.authorSchoolYear]]</div>
-                <div class="cafe-light">publicado [[getDate(article.dateCreated.time)]]</div>
+              <div class="cafe-header">[[article.title]]</div>
+              <div style="padding-top: 8px;">[[article.authorName]] - [[article.authorSchoolYear]]</div>
+              <div class="cafe-light">publicado [[getDate(article.dateCreated.time)]]</div>
 
-                <p>
-                    {{article.text}}
-                </p>
+              <p>
+                {{article.text}}
+              </p>
 
             </div>
+            <div class="card-actions" style="width:100%">
+              <div class="horizontal justified " style="float:right">
+
+              <a class="my-link" href="https://www.facebook.com/sharer/sharer.php?u=https://labinfo-85759.firebaseapp.com{{route.path}}" target="_blank">  <paper-button> <i class="fa fa-facebook fa-2x"></i></paper-button></a>
+              <a class="my-link" href="https://twitter.com/intent/tweet?text= veja: [[article.title]] -- em  https://labinfo-85759.firebaseapp.com{{route.path}}" target="_blank"><paper-button> <i class="fa fa-twitter fa-2x"></i></paper-button></a>
+                <paper-button> <i class="fa fa-google-plus fa-2x"></i></paper-button>
+              </div>
             </div>
-          </iron-grid>
-        </paper-card>
+          </div>
         </iron-grid>
+      </paper-card>
+    </iron-grid>
 
 
-<iron-grid>
-            <paper-card  style=" width: 100%; margin-top:32px ;
-            padding:20px">
+    <iron-grid>
+      <paper-card  style=" width: 100%; margin-top:32px ;
+      padding:20px">
 
-                  <div id="disqus_thread"></div>
-              </paper-card>
-</iron-grid>
+      <div id="disqus_thread"></div>
+    </paper-card>
+  </iron-grid>
 
 
 </iron-grid-container>
 
-    </template>
+</template>
 
-    <!-- Creates the element's prototype and registers it -->
-    <script>
-        Polymer({
-            is: 'my-article-details',
-            properties: {
-              article: {
-                  type: Object,
-                  notify:true,
-                  reflectToAttribute: true
-              },
-              route:{
-                type:String,
-                notify:true,
-                observer:'routeChanged'
-              },
-                articleId: {
-                    type: String,
-                    reflectToAttribute: true
-                },
-                articleType: {
-                    type: Number,
-                    reflectToAttribute: true
-                },
-                title: {
-                    type: String,
-                    reflectToAttribute: true
-                },
-                text: {
-                    type: String,
-                    reflectToAttribute: true
-                },
-                mediaSubtitle: {
-                    type: String,
-                    reflectToAttribute: true
-                },
-                dateCreated: {
-                    type: Date,
-                    reflectToAttribute: true
-                },
-                dateLastModified: {
-                    type: Date,
-                    reflectToAttribute: true
-                },
-                datePublished: {
-                    type: Date,
-                    reflectToAttribute: true
-                },
-                mediaUrl: {
-                    type: String,
-                    reflectToAttribute: true
-                },
-                authorSchoolYear: {
-                    type: String,
-                    reflectToAttribute: true
-                },
-                articleObject: {
-                    type: Object,
-                    reflectToAttribute: true
-                },
-                /*Properties related to comments*/
-                commentText: {
-                    type: String
-                }
+<!-- Creates the element's prototype and registers it -->
+<script>
+Polymer({
+  is: 'my-article-details',
+  properties: {
+    windowUrl:{
+      type:String,
+      value:window.location.href,
+      notify:true
+    },
+    article: {
+      type: Object,
+      notify:true,
+      reflectToAttribute: true
+    },
+    route:{
+      type:String,
+      notify:true,
+      observer:'routeChanged'
+    },
+    articleId: {
+      type: String,
+      reflectToAttribute: true
+    },
+    articleType: {
+      type: Number,
+      reflectToAttribute: true
+    },
+    title: {
+      type: String,
+      reflectToAttribute: true
+    },
+    text: {
+      type: String,
+      reflectToAttribute: true
+    },
+    mediaSubtitle: {
+      type: String,
+      reflectToAttribute: true
+    },
+    dateCreated: {
+      type: Date,
+      reflectToAttribute: true
+    },
+    dateLastModified: {
+      type: Date,
+      reflectToAttribute: true
+    },
+    datePublished: {
+      type: Date,
+      reflectToAttribute: true
+    },
+    mediaUrl: {
+      type: String,
+      reflectToAttribute: true
+    },
+    authorSchoolYear: {
+      type: String,
+      reflectToAttribute: true
+    },
+    articleObject: {
+      type: Object,
+      reflectToAttribute: true
+    },
+    /*Properties related to comments*/
+    commentText: {
+      type: String
+    }
 
-            },
-            isVideo:function(type){
-              console.log();
-              return type===3;
+  },
+  isVideo:function(type){
+    console.log();
+    return type===3;
 
-            },
-            isAudio: function(type){
-                return type===2;
-            },
-            isImage:function(type){
-                return type===1;
-            },
-            getDate: function(date){
-                var mom=moment(date).format('M/D/YYYY');
-                return mom;
-              },
-            ready: function () {
-              console.log(this.$.doc.path);
+  },
+  isAudio: function(type){
+    return type===2;
+  },
+  isImage:function(type){
+    return type===1;
+  },
+  getDate: function(date){
+    var mom=moment(date).format('M/D/YYYY');
+    return mom;
+  },
+  ready: function () {
+    console.log(this.route);
 
-            },
-            routeChanged: function () {
-              console.log(this.$.doc.path);
+  },
+  routeChanged: function () {
+    console.log(this.$.doc.path);
 
-                      var disqus_config = function () {
-                          this.page.url = this.articleObject;  // Replace PAGE_URL with your page's canonical URL variable
-                          this.page.identifier = this.route; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                      };
+    var disqus_config = function () {
+      this.page.url = this.articleObject;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = this.route; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
 
-                      (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
-                          var d = document, s = d.createElement('script');
-                        //  console.log(document.getElementById('disqus_thread'));
-                          s.src = '//labinfo.disqus.com/embed.js';
+    (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+      var d = document, s = d.createElement('script');
+      //  console.log(document.getElementById('disqus_thread'));
+      s.src = '//labinfo.disqus.com/embed.js';
 
-                          s.setAttribute('data-timestamp', +new Date());
-                          (d.head || d.body).appendChild(s);
-                          //Polymer.dom(this.root).appendChild(toLocal)
-                      })();
-            },
-            handleTap: function () {
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      //Polymer.dom(this.root).appendChild(toLocal)
+    })();
+  },
+  handleTap: function () {
 
-                alert('Comentario publicado');
-            }
-        });
-    </script>
+    alert('Comentario publicado');
+  }
+});
+</script>
 
 </dom-module>
