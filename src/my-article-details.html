@@ -52,6 +52,10 @@ width: 2em;
     overflow: hidden;
   }
 
+  a paper-button{
+    min-width:0px;
+    margin: 0px;
+  }
 
   </style>
 
@@ -130,11 +134,11 @@ data="{{article}}"
 
             </div>
             <div class="card-actions" style="width:100%">
-              <div class="horizontal justified " style="float:right">
+              <div class="horizontal justified " style="float:right;margin-right:30px">
 
-              <a class="my-link" href="https://www.facebook.com/sharer/sharer.php?u=https://labinfo-85759.firebaseapp.com{{route.path}}" target="_blank">  <paper-button> <i class="fa fa-facebook fa-2x"></i></paper-button></a>
-              <a class="my-link" href="https://twitter.com/intent/tweet?text= veja: [[article.title]] -- em  https://labinfo-85759.firebaseapp.com{{route.path}}" target="_blank"><paper-button> <i class="fa fa-twitter fa-2x"></i></paper-button></a>
-                <paper-button> <i class="fa fa-google-plus fa-2x"></i></paper-button>
+              <a class="my-link" href="https://www.facebook.com/sharer/sharer.php?u=https://labinfo-85759.firebaseapp.com{{route.path}}" target="_blank">  <paper-button> <i class="fa fa-facebook fa-lg"></i></paper-button></a>
+              <a class="my-link" href="https://twitter.com/intent/tweet?text= veja: [[article.title]] -- em  https://labinfo-85759.firebaseapp.com{{route.path}}" target="_blank"><paper-button> <i class="fa fa-twitter fa-lg"></i></paper-button></a>
+              <a class="my-link" href="#">  <paper-button> <i class="fa fa-google-plus fa-lg"></i></paper-button></a>
               </div>
             </div>
           </div>
