@@ -20,9 +20,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="elements/iron-grid/iron-grid.html">
 
 <link rel="import" href="my-fragment-article-card.html">
-<link rel="import" href="my-fragment-article-card-audio.html">
-<link rel="import" href="my-fragment-article-card-video.html">
 
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 
 <dom-module id="my-view1">
   <template>
@@ -38,6 +37,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   h1 {
     padding-left: 20px;
   }
+
+  .my-wrap
+    {
+      width: 100%;
+      /*margin: 15px auto;*/
+      position: relative;
+    }
+
+    #sidebar {
+        width: 25%;
+        position: fixed;
+        /*margin-left: 410px;*/
+      }
 
   /* Only the first item should expand */
   .item:first-child {
@@ -64,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <iron-grid-container>
 <h1>Notícias</h1>
 <iron-grid>
-  <div class="xs12 m7">
+  <div class="x s12 m7">
 
     <div class="item-list ">
 
@@ -92,11 +104,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <div class="s1">
 
   </div>
-<div class="xs12 m4">
+<div class="xs12 m4" >
 
 
-  <div class="">
-    <div class="card" style="margin:0px;">
+  <div class="my-wrap">
+    <div class="card" id="sidebar">
 
       <h3>Lab Info (ECA) </h3>
       <p> LabInfo é um sistema para escrita e partilha de artigos criados por estudantes de jornalismo da
@@ -142,6 +154,12 @@ Polymer({
   ready: function () {
 
     this.selectedArticleId = 'Mauro';
+    var that=this;
+    $(window).scroll(function(){
+      var sidebar=that.$.sidebar;
+      //console.log(sidebar);
+        $(sidebar).css("top",Math.max(0,100-$(this).scrollTop()));
+    });
 
   },
 
