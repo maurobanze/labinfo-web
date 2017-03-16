@@ -70,7 +70,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   id="articlesQuery"
   app-name="labInfo"
   path="/articles"
-
+  order-by-child="reverseOrder"
   data="{{articleList1}}">
 </firebase-query>
 
@@ -156,10 +156,8 @@ Polymer({
 
     this.selectedArticleId = 'Mauro';
           if(window.innerWidth>800){
-            console.log(window.innerWidth);
     var that=this;
     $(window).scroll(function(){
-      console.log(window.innerWidth);
       var sidebar=that.$.sidebar;
       $(sidebar).css("top",Math.max(0,100-$(this).scrollTop()));
 
