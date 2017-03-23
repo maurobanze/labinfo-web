@@ -26,6 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
+<link rel="import" href="../bower_components/note-app-elements/na-elements.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 
@@ -122,6 +123,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   storage-bucket="labinfo-85759.appspot.com">
 </firebase-app>
 
+
+    <firebase-auth
+    id="auth"
+    app-name="labInfo"
+    provider=""
+    signed-in="{{signedIn}}"
+    user="{{user}}">
+    </firebase-auth>
+
+    <iron-meta key="userData" value="{{user}}"></iron-meta>
+
 <app-location route="{{route}}"></app-location>
 <app-route
 route="{{route}}"
@@ -136,6 +148,7 @@ tail="{{subroute}}"></app-route>
   <app-header condenses reveals effects="waterfall">
     <app-toolbar class="layout horizontal justified" style="background: #00AA8D">
       <iron-grid>
+
         <div class="m5 xs4">
 
           <div main-title style="line-height: 2.5;">
@@ -167,7 +180,12 @@ tail="{{subroute}}"></app-route>
 
         </div>
         <div class="m3 xs0">
+            <na-toolbar
+              style="position:absolute;right:0px;"
+                signed-in="{{signedIn}}"
+                on-sign-out="signOut">
 
+            </na-toolbar>
         </div>
 
       </iron-grid>
@@ -179,7 +197,13 @@ tail="{{subroute}}"></app-route>
   attr-for-selected="name"
   fallback-selection="view404"
   role="main">
-
+  <na-login
+  name="login"
+      id="login"
+      on-sign-in="signIn"
+      signed-in="[[signedIn]]"
+      disabled="[[!online]]">
+  </na-login>
   <my-view1 name="view1" selected-article="{{selectedArticle}}"></my-view1>
   <my-ajuda name="ajuda"></my-ajuda>
   <my-view3 name="view3"></my-view3>
@@ -217,7 +241,9 @@ Polymer({
   observers: [
     '_routePageChanged(routeData.page)'
   ],
-
+   behaviors: [
+     Polymer.NoteAppBehavior
+   ],
   _routePageChanged: function (page) {
     this.page = page || 'view1';
   },
@@ -230,7 +256,17 @@ Polymer({
 
   _showPage404: function () {
     this.page = 'view404';
-  }
+  },
+  signIn: function() {
+  var that=this;
+  this.$.auth.signInWithEmailAndPassword(this.$.login.$.username.value,this.$.login.$.password.value).then(function(res){
+    this.$.login.$.username.value = null;
+    this.$.login.$.password.value = null;
+    that.$.login.error=null;
+  }).catch(function(err){
+    that.$.login.error=err;
+  });
+}
 
 });
 

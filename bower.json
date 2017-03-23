@@ -29,7 +29,10 @@
     "iron-ajax": "PolymerElements/iron-ajax#^1.4.3",
     "polymerfire": "firebase/polymerfire#^0.10.2",
     "paper-audio-player": "^1.1.1",
-    "moment": "^2.17.1"
+    "moment": "^2.17.1",
+    "paper-menu-button": "PolymerElements/paper-menu-button#^1.5.2",
+    "paper-menu": "PolymerElements/paper-menu#^1.2.2",
+    "paper-item": "PolymerElements/paper-item#^1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
