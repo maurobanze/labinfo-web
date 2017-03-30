@@ -1,0 +1,283 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="elements/iron-grid/iron-grid.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/vaadin-grid-v2/vaadin-grid.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="user-dialog.html">
+<dom-module id="my-user-editor">
+  <!-- Defines the element's style and local DOM -->
+  <template>
+  <style>
+  :host {
+    display: block;
+    --paper-fab-background:rgb(0, 170, 141);
+    padding: 16px;
+
+  }
+  paper-button{
+    background-color: var(--app-primary-color);
+    color: #fff;
+
+  }
+
+
+  vaadin-grid#material {
+
+    font-family: Roboto, sans-serif;
+    --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
+
+    --vaadin-grid-cell: {
+      padding: 0;
+    };
+
+    --vaadin-grid-header-cell: {
+      height: 64px;
+      color: rgba(0, 0, 0, var(--dark-secondary-opacity));
+      font-size: 12px;
+    };
+
+    --vaadin-grid-body-cell: {
+      height: 48px;
+      color: rgba(0, 0, 0, var(--dark-primary-opacity));
+      font-size: 13px;
+    };
+
+    --vaadin-grid-body-row-hover-cell: {
+      background-color: var(--paper-grey-200);
+    };
+
+    --vaadin-grid-body-row-selected-cell: {
+      background-color: var(--paper-grey-100);
+    };
+
+  }
+
+  vaadin-grid#material .cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 56px;
+  }
+
+  vaadin-grid#material .cell.last {
+    padding-right: 24px;
+  }
+
+  vaadin-grid#material .cell.numeric {
+    text-align: right;
+  }
+
+  vaadin-grid#material paper-checkbox {
+    --primary-color: var(--paper-indigo-500);
+    margin: 0 24px;
+  }
+
+  vaadin-grid#material vaadin-grid-sorter {
+    --vaadin-grid-sorter-arrow: {
+      display: none !important;
+    };
+  }
+
+  vaadin-grid#material vaadin-grid-sorter .cell {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  vaadin-grid#material vaadin-grid-sorter iron-icon {
+    transform: scale(0.8) translateZ(0);
+    transition: all 0.3s;
+  }
+
+  vaadin-grid#material vaadin-grid-sorter:not([direction]) iron-icon {
+    color: rgba(0, 0, 0, var(--dark-disabled-opacity));
+  }
+
+  vaadin-grid#material vaadin-grid-sorter[direction] {
+    color: rgba(0, 0, 0, var(--dark-primary-opacity));
+  }
+
+  vaadin-grid#material vaadin-grid-sorter[direction=desc] iron-icon {
+    transform: scale(0.8) rotate(180deg) translateZ(0);
+  }
+
+  #grid-row-details .details {
+    padding: 10px;
+    margin: 10px;
+    /*display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);*/
+    font-size: 20px;
+  }
+  /*#grid-row-details img {
+  width: 80px;
+  height: 80px;
+  }*/
+  #grid-row-details {
+    --primary-color: #00b4f0;
+    --paper-font-common-base: {
+      font-family: var(--font-family);
+      font-size: 14px;
+    };
+
+    vaadin-grid input{
+      width: 100%;
+    }
+    </style>
+
+
+
+        <firebase-auth
+        id="auth"
+        app-name="labInfo"
+        provider=""
+        signed-in="{{signedIn}}"
+        user="{{user}}">
+        </firebase-auth>
+
+  <firebase-query
+  id="query"
+  app-name="labInfo"
+  path="{{path}}"
+  data="{{dataSource}}"
+
+  >
+</firebase-query>
+
+<paper-dialog id="membersDialog" class="" modal="true">
+  <user-dialog >
+  </user-dialog>
+
+  <div class="buttons">
+    <paper-button dialog-confirm autofocus>close</paper-button>
+  </div>
+</paper-dialog>
+
+<div class="card" style="margin:0 auto">
+
+  <p>
+      <paper-fab blue icon="add" id="showUserDialog"></paper-fab>
+  </p>
+
+  <h3>Lista de usu&aacute;rios</h3>
+  <x-data-source data-source="{{dataSource}}"></x-data-source>
+
+  <p>
+    <vaadin-grid id="users"  active-item="{{activeItem}}" items="{{dataSource}}">
+
+      <vaadin-grid-column width="15%">
+        <template class="header">
+          <vaadin-grid-sorter path="$key">ID</vaadin-grid-sorter>
+        </template>
+        <template>[[item.$key]]</template>
+      </vaadin-grid-column>
+
+
+      <vaadin-grid-column width="25%">
+        <template class="header">Nome
+          <vaadin-grid-filter path="name" value="[[_filterName]]">
+            <input  placeholder="name" value="{{_filterName::input}}">
+          </vaadin-grid-filter>
+        </template>
+        <template>[[item.name]]</template>
+      </vaadin-grid-column>
+
+
+
+
+      <vaadin-grid-column width="20%">
+        <template class="header">Ano
+          <vaadin-grid-filter path="ano" value="[[_filterAno]]">
+            <input  placeholder="ano" value="{{_filterAno::input}}">
+          </vaadin-grid-filter>
+        </template>
+
+
+        <template>[[item.schoolYear]]</template>
+
+      </vaadin-grid-column>
+
+      <vaadin-grid-column width="20%">
+        <template class="header">Username
+          <vaadin-grid-filter path="username" value="[[_filterUsername]]">
+            <input  placeholder="username" value="{{_filterUsername::input}}">
+          </vaadin-grid-filter>
+        </template>
+        <template>[[item.email]]</template>
+      </vaadin-grid-column>
+
+      <vaadin-grid-column width="10%">
+        <template class="header">
+          <vaadin-grid-sorter path="isAdmin">Administrador
+          </vaadin-grid-filter>
+        </template>
+        <template>[[item.isAdmin]]</template>
+      </vaadin-grid-column>
+
+
+      <vaadin-grid-column width="10%">
+        <template class="header">Acções</template>
+        <template>
+        </template>
+        <paper-checkbox checked="{{expanded}}">Detalhes</paper-checkbox>
+      </vaadin-grid-column>
+    </vaadin-grid>
+  </p>
+
+
+</div>
+
+
+
+</iron-grid-container>
+
+</template>
+<!-- Creates the element's prototype and registers it -->
+<script>
+Polymer({
+  is: 'my-user-editor',
+  properties:{
+    path:{
+      type: String,
+      value:'users'
+    }
+  },
+  dataChanged: function(){
+  //  console.log('data changed');
+    //  console.log(this.user.nickname );
+  },
+  save:function(){
+    // this.$.househould.save().then(function(res){
+    //   console.log(res);
+    // })
+  },
+  attached: function () {
+      //console.log('attached usr');
+  },
+  ready:function () {
+    console.log(this.user);
+    this.$.showUserDialog.addEventListener('click',function(){
+      var body = document.querySelector('body'.user);
+      Polymer.dom(body).appendChild(this.$.membersDialog);
+      this.$.membersDialog.open();
+    }.bind(this));
+
+  //   this.addEventListener('closeModalEvent', this.closeModal.bind(this));
+  },
+  listeners: {
+    'closeModalEvent': 'closeModal'
+  },
+  closeModal:function(){
+    console.log('received event');
+    this.$.membersDialog.close();
+  }
+});
+</script>
+</dom-module>

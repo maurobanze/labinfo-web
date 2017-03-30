@@ -1,0 +1,143 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="elements/iron-grid/iron-grid.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="shared-styles.html">
+
+
+<dom-module id="user-dialog">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        //padding: 10px;
+      }
+    </style>
+
+      <!-- <firebase-app
+      name="labInfo"
+      api-key="AIzaSyDazt0QoMzuIA1aG38YjYtc3RqM2QaGgYY"
+      auth-domain="labinfo-85759.firebaseapp.com"
+      database-url="https://labinfo-85759.firebaseio.com"
+      storage-bucket="labinfo-85759.appspot.com">
+    </firebase-app> -->
+
+
+        <firebase-auth
+        id="auth"
+        app-name="labInfo"
+        provider=""
+        signed-in="{{signedIn}}"
+        user="{{user}}">
+        </firebase-auth>
+
+        <firebase-document
+          id="doc"
+          app-name="labInfo"
+          data="{{userData}}">
+        </firebase-document>
+      <iron-grid >
+        <div class="s0">
+        </div>
+          <div class="s12">
+            <div  style="margin:0 auto">
+
+              <iron-form id="userForm">
+                <paper-input id="name" name="name" value="{{userData.name}}" error-message="Preencha o nome" label="Nome" >
+                </paper-input>
+                <paper-input id="schoolYear" name="schoolYear" value="{{userData.schoolYear}}" error-message="Ano Invalido" label="Ano" >
+                </paper-input>
+                <paper-input id="email" type="email" name="email" value="{{userData.email}}" error-message="Invalid email!" label="Endereco de email" >
+                </paper-input>
+                <paper-input id="password" type="password" name="password" label="password">
+                </paper-input>
+
+                <span></span>
+                <!-- <paper-dropdown-menu id="type" label="type">
+                   <paper-listbox class="dropdown-content">
+                       <paper-item> admin</paper-item>
+                       <paper-item>publicador</paper-item>
+                   </paper-listbox>
+                </paper-dropdown-menu> -->
+                <select id="isAdmin" name="isAdmin" value="{{userData.isAdmin}}">
+                  <option value="false">Editor</option>
+                  <option value="true">Administrador </option>
+                </select>
+                <p>
+                  <paper-button id="createUserBt" blue raised > Criar utilizador</paper-button></paper-button>
+                </p>
+                <p id="respondelabel"> {{response}}</p>
+
+              </iron-form>
+            </div>
+      </div>
+      <div class="s12">
+      </div>
+  </iron-grid>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'user-dialog',
+      properties:{
+        userData:{
+          type:Object,
+          notify:true,
+          value:{
+            name:'',
+            email:'',
+            isAdmin:'false',
+            schoolYear:'1'
+          }
+        }
+      },
+      ready:function () {
+        this.$.createUserBt.addEventListener('click',function(){
+          this.createUser();
+        }.bind(this));
+      },
+      callCloseModalEvent:function(){
+        console.log('firing');
+        this.fire('closeModalEvent', { foo: this.foo, bar: this.bar });
+        this.response="Utilizador criado com sucesso";
+        this.userData= {
+          name:"",
+          email:"",
+          isAdmin:false,
+          schoolYear:""
+      };
+        console.log(this.userData);
+      },
+      createUser:function(){
+          var _that=this;
+          this.$.auth.createUserWithEmailAndPassword(this.$.email.value, this.$.password.value).then(function(res){
+            _that.email=res.email;
+            _that.$.doc.save('/users').then(function(){
+              console.log('created user');
+            _that.callCloseModalEvent();
+          })
+
+        }).catch(function(err){
+          //doesnt make much sence to write it here but its 1:am and im too tired
+          _that.response=err;
+        });
+      }
+    });
+  </script>
+</dom-module>

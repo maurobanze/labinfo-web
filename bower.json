@@ -32,7 +32,10 @@
     "moment": "^2.17.1",
     "paper-menu-button": "PolymerElements/paper-menu-button#^1.5.2",
     "paper-menu": "PolymerElements/paper-menu#^1.2.2",
-    "paper-item": "PolymerElements/paper-item#^1.2.1"
+    "paper-item": "PolymerElements/paper-item#^1.2.1",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.5.0",
+    "iron-form": "PolymerElements/iron-form#^1.1.4",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.1.0"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
